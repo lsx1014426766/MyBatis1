@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.bean.User">   
+<!--     <resultMap type="com.bean.User" id="UserMap">  
+        <id column="id" property="id" jdbcType="BIGINT" />  
+        <result column="name" property="name" jdbcType="VARCHAR" />  
+        <result column="age" property="age" jdbcType="BIGINT" />  
+    </resultMap>   -->
+ 
+  
+  <insert id="insertbatch" useGeneratedKeys="true" parameterType="map">
+ <!--  <selectKey keyProperty="fetchTime" order="BEFORE"
+  resultType="java.lang.String">
+  SELECT CURRENT_TIMESTAMP()
+  </selectKey> -->
+  insert into user ( name,age ) values
+  <foreach collection="list" item="item" index="index"
+  separator=",">
+  ( #{item.name},#{item.age})
+  </foreach>
+  </insert>
+     <delete id="deleteUser"  parameterType="User">
+        delete from user where id=#{id}
+    </delete>
+    
+    <select id="selectUser"  
+    			parameterType="java.lang.Integer"  
+    			resultType="User">
+    	select * from user where id=#{id}
+    </select>
+    
+    <select id="selectAll"  resultType="User">
+    	select * from user
+    </select>
+    
+    
+	<insert  id="insertUser"   parameterType="User">
+		insert into user values(#{id},#{name},#{age})
+	</insert>  
+	
+	<update id="updateUser" parameterType="User">
+		update user set name=#{name},age=#{age} where id=#{id}
+ 	</update>
+</mapper>
